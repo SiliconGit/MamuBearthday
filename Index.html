@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Mamu!</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(120deg, #ffffff, #d0f0ff);
+        height: 100vh;
+        overflow-x: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
+      }
+
+      .container {
+        text-align: center;
+        background: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 600px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #007bff;
+        margin-bottom: 15px;
+      }
+
+      p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: #555;
+      }
+
+      .button {
+        font-size: 1.2rem;
+        padding: 12px 24px;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      }
+
+      .button:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+      }
+
+      .message {
+        margin-top: 20px;
+        padding: 15px;
+        background: #e6f7ff;
+        border: 1px solid #b3e0ff;
+        border-radius: 8px;
+        font-size: 1rem;
+        color: #007bff;
+        display: none;
+      }
+
+      .photo-container {
+        margin-top: 20px;
+      }
+
+      .photo {
+        width: 100%;
+        max-width: 200px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        opacity: 0; /* Start hidden */
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      .photo.cool-effect {
+        transform: scale(1.05);
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .balloon {
+        position: absolute;
+        bottom: -100px;
+        width: 40px;
+        height: 60px;
+        background: linear-gradient(45deg, #007bff, #00c6ff);
+        border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+        animation: floatUp 6s ease-in-out infinite;
+      }
+
+      .balloon::after {
+        content: "";
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        width: 2px;
+        height: 20px;
+        background: #333;
+        transform: translateX(-50%);
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) rotate(0);
+        }
+        50% {
+          transform: translateY(-300px) rotate(15deg);
+        }
+        100% {
+          transform: translateY(-600px) rotate(-15deg);
+        }
+      }
+
+      .timer {
+        margin-top: 20px;
+        font-size: 1rem;
+        color: #007bff;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+        p {
+          font-size: 1rem;
+        }
+        .button {
+          font-size: 1rem;
+          padding: 10px 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.8rem;
+        }
+        .button {
+          font-size: 0.9rem;
+          padding: 8px 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Happy Birthday Mamu 🎉
+        <span role="img" aria-label="Heart Emoji">💙</span>
+      </h1>
+      <p>Wishing you a magical day full of joy and surprises! 💙</p>
+      <button class="button" onclick="celebrate()">Click to Celebrate</button>
+      <div class="message" id="message">
+        🎂 Here's to your best year yet, Mamu! 🥳
+      </div>
+      <div class="photo-container">
+        <img src="/s1.png" alt="Mamu's Photo" id="photo" class="photo" />
+      </div>
+      <div class="timer" id="timer"></div>
+    </div>
+
+    <!-- Balloons -->
+    <div id="balloons"></div>
+
+    <script>
+      // Celebration function
+      function celebrate() {
+        const message = document.getElementById("message");
+
+        message.style.display = "block"; // Show message
+
+        // Create balloons
+        const balloonContainer = document.getElementById("balloons");
+        for (let i = 0; i < 30; i++) {
+          const balloon = document.createElement("div");
+          balloon.className = "balloon";
+          balloon.style.left = `${Math.random() * 100}vw`;
+          balloon.style.animationDelay = `${Math.random() * 2}s`;
+          balloon.style.background = `hsl(${Math.random() * 360}, 70%, 70%)`;
+          balloonContainer.appendChild(balloon);
+
+          setTimeout(() => balloon.remove(), 6000); // Remove balloons after animation
+        }
+
+        // Show photo with cool effect
+        const photo = document.getElementById("photo");
+        photo.style.opacity = 1; // Make image visible
+        photo.classList.add("cool-effect");
+      }
+
+      // Countdown timer for the day
+      function startTimer() {
+        const now = new Date();
+        const target = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate() + 1
+        );
+        const diff = target - now;
+
+        const hours = String(Math.floor(diff / 1000 / 60 / 60)).padStart(
+          2,
+          "0"
+        );
+        const minutes = String(Math.floor((diff / 1000 / 60) % 60)).padStart(
+          2,
+          "0"
+        );
+        const seconds = String(Math.floor((diff / 1000) % 60)).padStart(2, "0");
+
+        document.getElementById(
+          "timer"
+        ).textContent = `🎈 Time left today: ${hours}:${minutes}:${seconds}`;
+
+        if (diff > 0) {
+          setTimeout(startTimer, 1000);
+        }
+      }
+      startTimer();
+    </script>
+  </body>
+</html>
